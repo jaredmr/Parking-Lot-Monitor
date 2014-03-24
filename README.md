@@ -11,5 +11,7 @@ The application may keep track of some simple statistics, but more complicated a
 Another extension of this idea could give the user the option of selecting which building they would like to be closest to, and the application would suggest the best open parking lot.
 
 Frameworks: 
+
 MySQL for storing parking lot information
+
 Javascript node.js for back end and Angular for front end
