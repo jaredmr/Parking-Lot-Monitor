@@ -1,6 +1,7 @@
 Parking-Lot-Monitor
 ===================
 Idea: Parking Spot Counter
+
 Details:
 
 BYU frequently deals with complaints about poor parking availability and many students are 	subject to wandering around parking lots on a daily basis. 	Additional parking lots are costly and don't seem to be high on 	BYU's priority list.
