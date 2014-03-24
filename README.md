@@ -10,4 +10,6 @@ The idea of this application is to create a place for students to log in and see
 The application may keep track of some simple statistics, but more complicated algorithms could be added to forecast when parking areas will be full (perhaps accounting for certain local events).
 Another extension of this idea could give the user the option of selecting which building they would like to be closest to, and the application would suggest the best open parking lot.
 
-Framework: Flask
+Frameworks: 
+MySQL for storing parking lot information
+Javascript node.js for back end and Angular for front end
