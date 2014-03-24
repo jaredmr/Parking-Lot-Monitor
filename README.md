@@ -12,7 +12,7 @@ Another extension of this idea could give the user the option of selecting which
 
 Ideally, this will become a mobile app that would talk to the user indicating the availability of parking spaces. It would have one setting in which the app tracks one or more parking lots chosen by the user. It will also have an automatic setting in which the app tracks the user's location and gives updates on the parking lot that he enters. 
 
-For this semester, we would like to make it work in the web browser. It will be able to track parking lots that the user indicates.
+For this semester, we would like to make it work in the web browser. It will be able to track one parking lot.
 
 Frameworks: 
 
