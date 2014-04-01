@@ -19,3 +19,7 @@ Frameworks:
 MySQL for storing parking lot information
 
 Javascript node.js for back end and Angular for front end
+
+Concept Webpage Image: https://drive.google.com/file/d/0B8d6etq7zPGWT0VNLWVYMHMyVUU/edit?usp=sharing
+
+The above webpage is a single-page, vertical design that should be intuitive upon inspection. The user will simply enter their desired destination and directions to a parking lot near that location with available parking spaces will be provided. The user may also click "nearby" in order to be shown parking availability close to where they currently are. Clicking "about" or "contact" will simply scroll further down the page to where the desired information is provided.
