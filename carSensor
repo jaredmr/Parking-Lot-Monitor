@@ -1,0 +1,119 @@
+import argparse
+import os
+import requests
+from PIL import Image
+import numpy
+from time import time
+import numpy as np
+import pymongo
+from pymongo import MongoClient
+
+''' Downloader for a set of files '''
+class Downloader:
+    def __init__(self):
+        ''' initialize the file where the list of URLs is listed, and the
+        directory where the downloads will be stored'''
+        self.args = None
+        self.parse_arguments()
+        client = MongoClient('mongodb://localhost:27017/')
+        db = client['parkMonDB']
+        collection = db['Spot']
+        
+        
+
+    def parse_arguments(self):
+        ''' parse arguments, which include '-i' for input file and
+        '-d' for download directory'''
+        parser = argparse.ArgumentParser(prog='Mass downloader', description='A simple script that downloads multiple files from a list of URLs specified in a file', add_help=True)
+        parser.add_argument('-i', '--input', type=str, action='store', help='Specify the input file containing a list of URLs, default is urls.txt',default='urls.txt')
+        parser.add_argument('-d', '--dir', type=str, action='store', help='Specify the directory where downloads are stored, default is downloads',default='downloads')
+        args = parser.parse_args()
+        self.in_file = args.input
+        self.dir = args.dir
+        if not os.path.exists(self.dir):
+            os.makedirs(self.dir)
+
+    def download(self):
+        ''' download the files listed in the input file '''
+        urls = []
+        f = open(self.in_file,'r')
+        for line in f.readlines():
+            urls.append(line.strip())
+        f.close()
+        files = [url.split('/')[-1].strip() for url in urls]
+        for f,url in zip(files,urls):
+            filename = self.dir + '/' + f
+            return self.download_file(url,filename)
+ 
+    def download_file(self,url,filename):
+        ''' download one file given by url and stored in filename'''
+        #print 'Downloading %s' % url
+        r = requests.get(url, stream=True)
+        with open(filename, 'wb') as f:
+            f.write(r.content)
+        image = numpy.asarray(Image.open(filename))
+        image1 = image[850:875,1600:1650,:]
+        image2 = image[925:950,1600:1650,:]
+        return [image1,image2]
+
+ 
+if __name__ == '__main__':
+    d = Downloader()
+    prev = time()
+    cur = prev
+    images1 = []
+    images2 = []
+    for x in xrange(50):
+        while cur - prev < 1:
+            cur = time()
+        prev = cur
+        temp1, temp2 = d.download()
+        images1.append(temp1)
+        images2.append(temp2)
+
+    index = 0
+    counter = 0
+    while(True):
+        median1 = [[[0 for x in xrange(3)] for x in xrange(len(images1[0][0]))] for x in xrange(len(images1[0]))]
+        median2 = [[[0 for x in xrange(3)] for x in xrange(len(images2[0][0]))] for x in xrange(len(images2[0]))]
+        for col in xrange(len(images1[0][0])):
+            for row in xrange(len(images1[0])):
+                for color in xrange(3):
+                    temp = []
+                    for x in xrange(len(images1)):
+                        temp.append(images1[x][row][col][color])
+                    temp = sorted(temp)[25]
+                    median1[row][col][color] = temp
+        for col in xrange(len(images2[0][0])):
+            for row in xrange(len(images2[0])):
+                for color in xrange(3):
+                    temp = []
+                    for x in xrange(len(images2)):
+                        temp.append(images2[x][row][col][color])
+                    temp = sorted(temp)[25]
+                    median2[row][col][color] = temp
+        while cur - prev < 1:
+            cur = time()
+        temp1, temp2 = d.download()
+        count = 0
+        for x in xrange(3):
+            count = count + np.matrix(abs(temp1 - median1)[x]).sum()
+            if count > 100000:
+                # increment in database and break
+                print 'increment'
+                break
+        count = 0
+        for x in xrange(3):
+            count = count + np.matrix(abs(temp2 - median2)[x]).sum()
+            if count > 100000:
+                # decrement in database and break
+                print 'decrement'
+                break
+        prev = cur
+        images1[index] = temp1
+        images2[index] = temp2
+        index = (index + 1) % 50
+        counter = (counter + 1) % 10
+        
+        if not counter:
+            print 'still running'
