@@ -1,0 +1,129 @@
+<!doctype html>
+
+<!-- ASSIGN THE ANGULAR MODULE -->
+<html ng-app="scotchSpot">
+<head>
+	<!-- META -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1"><!-- Optimize mobile viewport -->
+	<meta name="generator" content="Bluefish 2.2.4" >
+	<meta name="author" content="Jared Michael Reynolds" >
+	<meta name="date" content="2014-04-21T15:56:44-0600" >
+	<meta name="copyright" content="">
+	<meta name="keywords" content="">
+	<meta name="description" content="">
+	<meta name="ROBOTS" content="NOINDEX, NOFOLLOW">
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8">
+	<meta http-equiv="content-style-type" content="text/css">
+	<meta http-equiv="expires" content="0">
+	
+	<title>Parking Monitor App</title>
+	
+	<!-- Primary Navigation -->
+	<TABLE style="width:100%">
+	<TR>
+		<TH valign="top">
+			<div align="left">
+				<img src="/img/images/Logo.png" width=100%/>
+			</div>
+		<TH><div align="right">
+			<a href="#nearby" style="padding: 5px"><img src="/img/images/nearby.png" /></a>
+			<a href="#about" style="padding: 5px"><img src="/img/images/about1.png" /></a>
+			<a href="#contact" style="padding: 5px"><img src="/img/images/contact1.png" /></a>
+		</div>
+	</TABLE>
+	
+	<!-- SCROLLS -->
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"><!-- load bootstrap -->
+	<style>
+		body {
+			margin-left:auto;
+			margin-right:auto;
+			max-width:800px;
+			background-image:url("/img/images/HeadBackground.jpg");
+			background-repeat:repeat-x;
+		}
+		th {
+			text-align:right;
+		}
+		a {
+			text-decoration: none;
+		}
+		A:link {
+	 		COLOR: #0172aa /*The color of the link*/
+		}
+		#circle {
+    width: 50px;
+    height: 50px;
+    -webkit-border-radius: 25px;
+    -moz-border-radius: 25px;
+    border-radius: 25px;
+    }
+	</style>
+
+	
+	<!-- SPELLS -->
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.5/angular.min.js"></script><!-- load angular -->
+	<script src="core.js"></script>
+	
+	<br>
+</head>
+
+<!-- SET THE CONTROLLER AND GET ALL TODOS WITH INITIALIZE FUNCTION -->
+<body  ng-controller="mainController" bgcolor="#FFFFFF">
+	<div align="center"><img src="/img/images/Query.png" /></div>
+	<div align="center">
+		<input id="lst-ib" class="gsfi" type="text" title="Search" size="30" autocomplete="off" name="q" maxlength="2048" style="padding: 0px; margin: 5px; height: auto…tion: absolute; z-index: 6; left: 0px; outline: medium none" dir="ltr" spellcheck="false"></input>
+	</div>
+	<br>
+	
+	<a name="nearby">
+		<div align="center" style="position: relative">
+			<img src="/img/images/parkinglot.jpg" width=90% alt="" />
+			<div style="position: absolute; top: 40%;  left: 45%; font-family:'Courier New'; border-radius:20px; -moz-border-radius: 20px; -webkit-border-radius: 20px; width: 40px; height: 40px; background:#ff8800; padding:8px 4px;">
+		<font size="4" color="white"><b>
+			{{spots[0].numOpenSpots}}
+		</b></font>
+	</div>
+		</div>
+	</a>
+
+	<br><br>
+	
+	<a name="about"></a>
+		<div align="center"><img src="/img/images/about.png" /></div>
+		<br>
+		<div align="center">
+			<div style="max-width:510px; text-align:center; color:#0172aa">
+				Parking Monitor is all about guiding you to the best available parking for your destination. Using innovative parking counter technology, you'll never have to wander through a full parking lot again. Simply enter you destination (or click "nearby") to begin. 
+			</div>
+		</div>
+		<br><br>
+		
+	<a name="contact"></a>
+	
+		<div align="center"><img src="/img/images/contact.png" /></div>
+		<br>
+		<div align="center">
+			<div style="text-align:center">
+				<a href="mailto:service@parkimon.com" style="padding: 20px">service@parkimon.com</a>
+				<a href="tel:18005551234" style="padding: 20px">1-800-555-1234</a>
+			</div>
+		</div>
+		
+		<!-- TODO LIST -->
+		<!--<div id="spot-list" class="row">
+			<div class="col-sm-4 col-sm-offset-4"> -->
+
+				<!-- LOOP OVER THE TODOS IN $scope.todos -->
+				<!--<div class="checkbox" ng-repeat="spot in spots">
+					<label>
+						<input type="checkbox" ng-click="deleteSpot(spot._id)"> {{ spot.name }}
+					</label>
+				</div>
+
+			</div>
+		</div> -->
+</body>
+</html>
