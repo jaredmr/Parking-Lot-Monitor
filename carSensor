@@ -1,3 +1,9 @@
+'''
+Created on Apr 22, 2014
+
+@author: jaredmr
+'''
+import json
 import argparse
 import os
 import requests
@@ -5,8 +11,7 @@ from PIL import Image
 import numpy
 from time import time
 import numpy as np
-import pymongo
-from pymongo import MongoClient
+
 
 ''' Downloader for a set of files '''
 class Downloader:
@@ -15,9 +20,6 @@ class Downloader:
         directory where the downloads will be stored'''
         self.args = None
         self.parse_arguments()
-        client = MongoClient('mongodb://localhost:27017/')
-        db = client['parkMonDB']
-        collection = db['Spot']
         
         
 
@@ -55,8 +57,25 @@ class Downloader:
         image1 = image[850:875,1600:1650,:]
         image2 = image[925:950,1600:1650,:]
         return [image1,image2]
+    
+    def increment_db(self):
+        r= requests.get('http://107.170.22.122:3000/api/spots')
+        jd = json.loads(r.text)
+        x = jd[0]["numOpenSpots"]# name = jd[0]["name"]
+        idnum = jd[0]["_id"]
+        r= requests.delete('http://107.170.22.122:3000/api/spots/'+idnum)
+        r= requests.post('http://107.170.22.122:3000/api/spots', data={'name':'adam','numOpenSpots':x+1})
 
- 
+        
+    def decrement_db(self):
+        r= requests.get('http://107.170.22.122:3000/api/spots')
+        jd = json.loads(r.text)
+        x = jd[0]["numOpenSpots"]# name = jd[0]["name"]
+        idnum = jd[0]["_id"]
+        r= requests.delete('http://107.170.22.122:3000/api/spots/'+idnum)
+        r= requests.post('http://107.170.22.122:3000/api/spots', data={'name':'adam','numOpenSpots':x-1})
+
+        
 if __name__ == '__main__':
     d = Downloader()
     prev = time()
@@ -100,6 +119,7 @@ if __name__ == '__main__':
             count = count + np.matrix(abs(temp1 - median1)[x]).sum()
             if count > 100000:
                 # increment in database and break
+                d.increment_db()
                 print 'increment'
                 break
         count = 0
@@ -107,6 +127,7 @@ if __name__ == '__main__':
             count = count + np.matrix(abs(temp2 - median2)[x]).sum()
             if count > 100000:
                 # decrement in database and break
+                d.decrement_db()
                 print 'decrement'
                 break
         prev = cur
