@@ -19,3 +19,16 @@ Frameworks:
 MySQL for storing parking lot information
 
 Javascript node.js for back end and Angular for front end
+
+
+
+where our files go in the MEAN stack file structure is:
+/opt/mean
+server.js
+package.json
+-carSensor/
+--carSensor.py
+--urls.txt
+-public/
+--index.html
+--core.js
