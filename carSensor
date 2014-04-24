@@ -59,21 +59,21 @@ class Downloader:
         return [image1,image2]
     
     def increment_db(self):
-        r= requests.get('http://107.170.22.122:3000/api/spots')
+        r= requests.get('http://localhost:3000/api/spots')
         jd = json.loads(r.text)
         x = jd[0]["numOpenSpots"]# name = jd[0]["name"]
         idnum = jd[0]["_id"]
-        r= requests.delete('http://107.170.22.122:3000/api/spots/'+idnum)
-        r= requests.post('http://107.170.22.122:3000/api/spots', data={'name':'adam','numOpenSpots':x+1})
+        r= requests.delete('http://localhost:3000/api/spots/'+idnum)
+        r= requests.post('http://localhost:3000/api/spots', data={'name':'adam','numOpenSpots':x+1})
 
         
     def decrement_db(self):
-        r= requests.get('http://107.170.22.122:3000/api/spots')
+        r= requests.get('http://localhost:3000/api/spots')
         jd = json.loads(r.text)
         x = jd[0]["numOpenSpots"]# name = jd[0]["name"]
         idnum = jd[0]["_id"]
-        r= requests.delete('http://107.170.22.122:3000/api/spots/'+idnum)
-        r= requests.post('http://107.170.22.122:3000/api/spots', data={'name':'adam','numOpenSpots':x-1})
+        r= requests.delete('http://localhost:3000/api/spots/'+idnum)
+        r= requests.post('http://localhost:3000/api/spots', data={'name':'adam','numOpenSpots':x-1})
 
         
 if __name__ == '__main__':
@@ -91,7 +91,7 @@ if __name__ == '__main__':
         images2.append(temp2)
 
     index = 0
-    counter = 0
+  #  counter = 0
     while(True):
         median1 = [[[0 for x in xrange(3)] for x in xrange(len(images1[0][0]))] for x in xrange(len(images1[0]))]
         median2 = [[[0 for x in xrange(3)] for x in xrange(len(images2[0][0]))] for x in xrange(len(images2[0]))]
@@ -120,7 +120,7 @@ if __name__ == '__main__':
             if count > 100000:
                 # increment in database and break
                 d.increment_db()
-                print 'increment'
+             #   print 'increment'
                 break
         count = 0
         for x in xrange(3):
@@ -128,13 +128,13 @@ if __name__ == '__main__':
             if count > 100000:
                 # decrement in database and break
                 d.decrement_db()
-                print 'decrement'
+             #   print 'decrement'
                 break
         prev = cur
         images1[index] = temp1
         images2[index] = temp2
         index = (index + 1) % 50
-        counter = (counter + 1) % 10
+      #  counter = (counter + 1) % 10
         
-        if not counter:
-            print 'still running'
+     #   if not counter:
+          #  print 'still running'
